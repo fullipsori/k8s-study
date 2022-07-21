@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: bwapp
+  name: bwapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bwapp
+  template:
+    metadata:
+      labels:
+        app: bwapp
+    spec:
+      containers:
+      - image: 192.168.1.10:8443/tibco/bwce
+        name: bwce
+        volumeMounts:
+        - name: nfs-vol
+          mountPath: /bw-output
+      volumes:
+      - name: nfs-vol
+        persistentVolumeClaim:
+          claimName: nfs-pvc-bw
